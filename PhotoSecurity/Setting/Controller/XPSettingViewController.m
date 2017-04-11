@@ -149,7 +149,6 @@
     _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
     _interstitialObj.delegate = self;
     [_interstitialObj loadAd];
-    
 }
 
 -(void)startShowAdMob{
@@ -157,11 +156,13 @@
 }
 
 #pragma mark  广点通广告---------
-
 - (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-  
     [_interstitialObj loadAd];
 }
+- (void)interstitialFailToLoadAd:(GDTMobInterstitial *)interstitial error:(NSError *)error{
+    [_interstitialObj loadAd];
+}
+
 
 
 @end

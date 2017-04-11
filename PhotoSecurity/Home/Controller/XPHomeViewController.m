@@ -293,7 +293,6 @@
     
 }
 
-
 -(void)startShowAdMob{
         
 [_interstitialObj presentFromRootViewController:self];

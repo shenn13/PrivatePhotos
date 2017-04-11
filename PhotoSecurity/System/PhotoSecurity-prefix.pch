@@ -30,17 +30,15 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
+#define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+
 #define GDT_APP_ID @"1105900617"//REP_FLG_GDTID
 #define GDT_APP_KID @"2070913921554874"//REP_FLG_KID
 #define GDT_APP_CID @"4060216901850805"//REP_FLG_CID
+#define GDT_APP_BID @"2060025118171166"//REP_FLG_BID
 //友盟统计
 #define UM_APP_KEY @"58b9075f04e2054f0f000477"
-//AdMob APPID 原生广告ID 插屏广告ID  所有APP固定 三个ID
-#define AdMob_APP_ID @"ca-app-pub-4903381575382292~1388993566"
-#define AdMob_NativeExpressAdUnitID @"ca-app-pub-4903381575382292/4345741960"
-#define AdMob_CID @"ca-app-pub-4903381575382292/7073770369"
-#define AdMob_BannerViewAdUnitID @"ca-app-pub-4903381575382292/2865726763"
-//
+
 /// 处理Block循环引用
 #define weakify(obj)    autoreleasepool{} __weak __typeof(obj) weak##obj = obj;
 #define strongify(obj)  autoreleasepool{} __strong __typeof(obj) obj = weak##obj;
