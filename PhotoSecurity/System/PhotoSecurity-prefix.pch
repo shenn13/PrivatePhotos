@@ -32,12 +32,12 @@
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
-#define GDT_APP_ID @"1105900617"//REP_FLG_GDTID
-#define GDT_APP_KID @"2070913921554874"//REP_FLG_KID
-#define GDT_APP_CID @"4060216901850805"//REP_FLG_CID
-#define GDT_APP_BID @"2060025118171166"//REP_FLG_BID
+#define GDT_APP_ID @"1105943851"//REP_FLG_GDTID
+#define GDT_APP_KID @"2050720004809948"//REP_FLG_KID
+#define GDT_APP_CID @"8070623034701917"//REP_FLG_CID
+#define GDT_APP_BID @"9050929178175328"//REP_FLG_BID
 //友盟统计
-#define UM_APP_KEY @"58b9075f04e2054f0f000477"
+#define UM_APP_KEY @"58eca1825312dd405600051b"
 
 /// 处理Block循环引用
 #define weakify(obj)    autoreleasepool{} __weak __typeof(obj) weak##obj = obj;

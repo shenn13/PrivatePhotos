@@ -62,6 +62,7 @@
             [rootVc.presentedViewController dismissViewControllerAnimated:NO completion:nil];
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UIViewController *unlockVc = [mainStoryboard instantiateViewControllerWithIdentifier:@"XPUnlockViewController"];
+            
             [rootVc presentViewController:unlockVc animated:NO completion:nil];
         }
     }
