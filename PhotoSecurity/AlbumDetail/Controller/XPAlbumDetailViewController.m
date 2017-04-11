@@ -17,7 +17,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <QuickLook/QuickLook.h>
 
-@import GoogleMobileAds;
 
 #define OPERATION_TOOLBAR_TAG                   999
 #define OPERATION_TOOLBAR_HEIGHT                49.0
@@ -31,7 +30,7 @@ XPPhotoPickerViewControllerDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 QLPreviewControllerDataSource,
-QLPreviewControllerDelegate,GADBannerViewDelegate,GADInterstitialDelegate>
+QLPreviewControllerDelegate>
 
 /// 该相册下的图片数据
 @property (nonatomic, strong) NSMutableArray<XPPhotoModel *> *photos;
@@ -39,8 +38,6 @@ QLPreviewControllerDelegate,GADBannerViewDelegate,GADInterstitialDelegate>
 @property (nonatomic, assign) BOOL editing;
 /// 选中列表(key为下标索引,value固定为@(YES))
 @property (nonatomic, strong) NSMutableDictionary *selectMaps;
-
-@property(nonatomic, strong) GADInterstitial *interstitial;
 
 @end
 
@@ -52,9 +49,6 @@ static CGFloat const kCellBorderMargin = 1.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    [self setInterstitial];
     
     [self loadAdGDTData];
     
@@ -599,9 +593,6 @@ static CGFloat const kCellBorderMargin = 1.0;
     }
 }
 
-
-
-
 //广点通广告加载
 -(void)loadAdGDTData{
     _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
@@ -610,41 +601,15 @@ static CGFloat const kCellBorderMargin = 1.0;
     
 }
 
-//初始化插页广告
-- (void)setInterstitial {
-    
-    self.interstitial = [self createNewInterstitial];
-}
-//这个部分是因为多次调用 所以封装成一个方法
-- (GADInterstitial *)createNewInterstitial {
-    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:AdMob_CID];
-    interstitial.delegate = self;
-    [interstitial loadRequest:[GADRequest request]];
-    return interstitial;
-}
 -(void)startShowAdMob{
-    
-    if ([self.interstitial isReady]) {
-        
-        [self.interstitial presentFromRootViewController:self];
-    }else{
-        
-        [_interstitialObj presentFromRootViewController:self];
-    }
+    [_interstitialObj presentFromRootViewController:self];
 }
-
 #pragma mark  广点通广告---------
 
 - (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-    [self setInterstitial];
+
     [_interstitialObj loadAd];
 }
-#pragma mark - GADInterstitialDelegate -
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self setInterstitial];
-}
-- (void)interstitialAdDidDismissFullScreenModal:(GDTMobInterstitial *)interstitial{
-    NSLog(@"广告被关闭");
-}
+
 
 @end

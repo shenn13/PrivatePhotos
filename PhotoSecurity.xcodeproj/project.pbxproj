@@ -50,7 +50,6 @@
 		548055DE1E6702D70040143A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055DB1E6702D70040143A /* AppDelegate.m */; };
 		548055E01E6702D70040143A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055DD1E6702D70040143A /* main.m */; };
 		548055E91E6705F80040143A /* XPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055E81E6705F80040143A /* XPHomeViewController.m */; };
-		64EB3CB21E961F4600A32B4E /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB11E961F4600A32B4E /* GoogleMobileAds.framework */; };
 		64EB3CB41E961F8A00A32B4E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB31E961F8A00A32B4E /* libz.tbd */; };
 		64EB3CB61E961F9800A32B4E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB51E961F9800A32B4E /* libstdc++.tbd */; };
 		64EB3CB81E961FA200A32B4E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */; };
@@ -151,7 +150,6 @@
 		548055DD1E6702D70040143A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		548055E71E6705F80040143A /* XPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPHomeViewController.h; sourceTree = "<group>"; };
 		548055E81E6705F80040143A /* XPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPHomeViewController.m; sourceTree = "<group>"; };
-		64EB3CB11E961F4600A32B4E /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		64EB3CB31E961F8A00A32B4E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		64EB3CB51E961F9800A32B4E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -189,7 +187,6 @@
 				64EB3CB81E961FA200A32B4E /* CoreTelephony.framework in Frameworks */,
 				64EB3CB61E961F9800A32B4E /* libstdc++.tbd in Frameworks */,
 				64EB3CB41E961F8A00A32B4E /* libz.tbd in Frameworks */,
-				64EB3CB21E961F4600A32B4E /* GoogleMobileAds.framework in Frameworks */,
 				64EB3CD01E9621D700A32B4E /* UMMobClick.framework in Frameworks */,
 				12972AD01E6D08880092D64B /* LocalAuthentication.framework in Frameworks */,
 				4ACD21B9B3E2750FAF0C1AF6 /* libPods-PhotoSecurity.a in Frameworks */,
@@ -420,7 +417,6 @@
 				64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */,
 				64EB3CB51E961F9800A32B4E /* libstdc++.tbd */,
 				64EB3CB31E961F8A00A32B4E /* libz.tbd */,
-				64EB3CB11E961F4600A32B4E /* GoogleMobileAds.framework */,
 				12972ACF1E6D08880092D64B /* LocalAuthentication.framework */,
 				CB161BA3F61719AAE63C0CFE /* libPods-PhotoSecurity.a */,
 			);

@@ -9,9 +9,9 @@
 #import "XPSettingViewController.h"
 #import "XPSettingCell.h"
 #import <LocalAuthentication/LocalAuthentication.h>
-@import GoogleMobileAds;
-@interface XPSettingViewController ()<GADBannerViewDelegate,GADInterstitialDelegate>
-@property(nonatomic, strong) GADInterstitial *interstitial;
+
+@interface XPSettingViewController ()
+
 @end
 
 @implementation XPSettingViewController
@@ -152,42 +152,15 @@
     
 }
 
-//初始化插页广告
-- (void)setInterstitial {
-    
-    self.interstitial = [self createNewInterstitial];
-}
-//这个部分是因为多次调用 所以封装成一个方法
-- (GADInterstitial *)createNewInterstitial {
-    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:AdMob_CID];
-    interstitial.delegate = self;
-    [interstitial loadRequest:[GADRequest request]];
-    return interstitial;
-}
 -(void)startShowAdMob{
-    
-    if ([self.interstitial isReady]) {
-        
-        [self.interstitial presentFromRootViewController:self];
-        
-    }else{
-        
-        [_interstitialObj presentFromRootViewController:self];
-    }
+    [_interstitialObj presentFromRootViewController:self];
 }
 
 #pragma mark  广点通广告---------
 
 - (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-    [self setInterstitial];
+  
     [_interstitialObj loadAd];
-}
-#pragma mark - GADInterstitialDelegate -
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self setInterstitial];
-}
-- (void)interstitialAdDidDismissFullScreenModal:(GDTMobInterstitial *)interstitial{
-    NSLog(@"广告被关闭");
 }
 
 

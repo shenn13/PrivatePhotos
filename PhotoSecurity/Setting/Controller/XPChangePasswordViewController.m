@@ -7,11 +7,8 @@
 //
 
 #import "XPChangePasswordViewController.h"
-@import GoogleMobileAds;
 
 @interface XPChangePasswordViewController ()
-
-@property (weak, nonatomic) IBOutlet GADBannerView *bannweView;
 
 /// 旧密码输入框
 @property (weak, nonatomic) IBOutlet UITextField *oldPasswordTextFiled;
@@ -32,12 +29,6 @@
     
     self.title = NSLocalizedString(@"Change Password", nil);
     
-    self.bannweView.adUnitID = AdMob_BannerViewAdUnitID;
-    self.bannweView.rootViewController = self;
-    GADRequest *request = [GADRequest request];
-    [self.bannweView loadRequest:request];
-    
-
 }
 
 - (void)didReceiveMemoryWarning {

@@ -292,13 +292,6 @@
                                     <action selector="settingButtonAction:" destination="IH4-YG-qsQ" eventType="touchUpInside" id="nDt-qB-4tH"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fUo-r4-TA5" customClass="GADBannerView">
-                                <rect key="frame" x="0.0" y="602" width="375" height="65"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="65" id="ydU-Bx-eMh"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -311,22 +304,18 @@
                             <constraint firstItem="QzR-TV-Wa9" firstAttribute="leading" secondItem="76q-yc-mS3" secondAttribute="leading" constant="10" id="Ksx-xP-FdY"/>
                             <constraint firstItem="8Op-Z9-ApT" firstAttribute="top" secondItem="t4j-eR-t1g" secondAttribute="bottom" constant="40" id="MXS-mn-a3a"/>
                             <constraint firstItem="00K-Sd-YNY" firstAttribute="width" secondItem="QzR-TV-Wa9" secondAttribute="width" id="Ndh-kM-G1x"/>
-                            <constraint firstAttribute="trailing" secondItem="fUo-r4-TA5" secondAttribute="trailing" id="NsS-MP-ymp"/>
                             <constraint firstItem="00K-Sd-YNY" firstAttribute="height" secondItem="QzR-TV-Wa9" secondAttribute="height" id="Oio-z3-jGZ"/>
                             <constraint firstAttribute="trailing" secondItem="8Op-Z9-ApT" secondAttribute="trailing" constant="10" id="RAE-bI-phM"/>
                             <constraint firstItem="Rtp-mu-7ur" firstAttribute="top" secondItem="Aik-xx-WFz" secondAttribute="bottom" constant="20" id="Rp9-To-5b2"/>
                             <constraint firstItem="t4j-eR-t1g" firstAttribute="top" secondItem="00K-Sd-YNY" secondAttribute="bottom" constant="10" id="VoB-Lm-CwA"/>
                             <constraint firstItem="8Op-Z9-ApT" firstAttribute="leading" secondItem="76q-yc-mS3" secondAttribute="leading" constant="10" id="aeW-Pl-TgG"/>
                             <constraint firstItem="Rtp-mu-7ur" firstAttribute="leading" secondItem="76q-yc-mS3" secondAttribute="leading" constant="10" id="bQt-nx-pt7"/>
-                            <constraint firstItem="bhR-0Z-6tp" firstAttribute="top" secondItem="fUo-r4-TA5" secondAttribute="bottom" id="mdQ-Pl-apj"/>
-                            <constraint firstItem="fUo-r4-TA5" firstAttribute="leading" secondItem="76q-yc-mS3" secondAttribute="leading" id="mqL-yQ-0ki"/>
                             <constraint firstItem="00K-Sd-YNY" firstAttribute="leading" secondItem="QzR-TV-Wa9" secondAttribute="leading" id="otC-uu-sDR"/>
                             <constraint firstItem="00K-Sd-YNY" firstAttribute="top" secondItem="Bkq-TO-LOu" secondAttribute="bottom" constant="10" id="vuG-s0-l92"/>
                             <constraint firstItem="t4j-eR-t1g" firstAttribute="width" secondItem="QzR-TV-Wa9" secondAttribute="width" id="ylR-Pa-WS3"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bannweView" destination="fUo-r4-TA5" id="ucj-4f-Yjw"/>
                         <outlet property="confirmPasswordTextField" destination="t4j-eR-t1g" id="92H-Km-kyb"/>
                         <outlet property="oldPasswordTextFiled" destination="QzR-TV-Wa9" id="AJw-hr-eSl"/>
                         <outlet property="passwordTextField" destination="00K-Sd-YNY" id="eeW-rA-eev"/>

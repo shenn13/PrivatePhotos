@@ -29,6 +29,7 @@ NSString* photoRootDirectory()
  检测相册根目录,如果不存在则创建
  */
 void checkPhotoRootDirectory(){
+    
     NSString *photoRootDir = photoRootDirectory();
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDirectory = YES;

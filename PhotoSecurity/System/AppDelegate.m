@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "GHPopupEditView.h"
 #import "XPUnlockViewController.h"
-@import GoogleMobileAds;
 #import "UMMobClick/MobClick.h"
 
 @interface AppDelegate ()
@@ -31,14 +30,12 @@
         NSString *random = randomString(6);
         
         [userDefaults setObject:random forKey:XPEncryptionPasswordRandomKey];
+        
         [userDefaults synchronize];
     }
     // 初始化数据库
     [[XPSQLiteManager sharedSQLiteManager] initializationDatabase];
-    
-    [GADMobileAds configureWithApplicationID:AdMob_APP_ID];
-    
-    
+
     UMConfigInstance.appKey = UM_APP_KEY;
     UMConfigInstance.channelId = nil;
     [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
