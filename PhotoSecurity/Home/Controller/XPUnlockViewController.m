@@ -54,6 +54,7 @@
 #pragma mark - Actions
 
 - (IBAction)unlockButtonAction:(UIButton *)sender {
+    
     NSString *password = [self.passwordTextField.text trim];
     if (XPPasswordMinimalLength > password.length) {
         return [self.passwordTextField shake];
@@ -67,6 +68,7 @@
 }
 
 - (void)applicationWillEnterForegroundNotificationAction:(NSNotification *)sender {
+    
     [self prepareEnterPassword];
 }
 

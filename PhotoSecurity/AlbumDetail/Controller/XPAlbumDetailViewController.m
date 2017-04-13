@@ -50,8 +50,6 @@ static CGFloat const kCellBorderMargin = 1.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadAdGDTData];
-    
     self.title = self.album.name;
     
     self.collectionView.emptyDataSetSource = self;
@@ -254,9 +252,6 @@ static CGFloat const kCellBorderMargin = 1.0;
             
             [self.collectionView reloadData];
             
-            //显示广告**********************************************
-            [self startShowAdMob];
-            //*****************************************************
         });
     });
 }
@@ -305,11 +300,6 @@ static CGFloat const kCellBorderMargin = 1.0;
         }
         [self.photos addObjectsFromArray:latestPhotos];
         [self.collectionView reloadData];
-
-        //显示广告**********************************************
-        [self startShowAdMob];
-        //*****************************************************
-        
     } else {
         [XPProgressHUD showFailureHUD:NSLocalizedString(@"Photo saved failed", nil) toView:self.view];
     }
@@ -488,9 +478,6 @@ static CGFloat const kCellBorderMargin = 1.0;
                         
                         [XPProgressHUD showSuccessHUD:NSLocalizedString(@"Photo saved successfully", nil) toView:self.view];
                         
-                        //显示广告**********************************************
-                        [self startShowAdMob];
-                        //*****************************************************
                     }
                 });
             }];
@@ -592,24 +579,5 @@ static CGFloat const kCellBorderMargin = 1.0;
         }
     }
 }
-
-//广点通广告加载
--(void)loadAdGDTData{
-    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
-    _interstitialObj.delegate = self;
-    [_interstitialObj loadAd];
-    
-}
-
--(void)startShowAdMob{
-    [_interstitialObj presentFromRootViewController:self];
-}
-#pragma mark  广点通广告---------
-
-- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-
-    [_interstitialObj loadAd];
-}
-
 
 @end

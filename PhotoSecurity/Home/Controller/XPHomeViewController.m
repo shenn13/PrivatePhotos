@@ -14,6 +14,8 @@
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
 
+#import "CKAlertViewController.h"
+
 
 @interface XPHomeViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
@@ -31,8 +33,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self loadAdGDTData];
     
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     self.tableView.emptyDataSetSource = self;
@@ -40,6 +40,9 @@
     self.tableView.tableFooterView = [UIView new];
     self.navigationController.view.hidden = YES;
     self.userAlbums = [[XPSQLiteManager sharedSQLiteManager] requestUserAlbums];
+    
+   
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,6 +58,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [[IQKeyboardManager sharedManager] setEnable:NO];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     // 打开应用必须先解锁才能使用
@@ -62,19 +66,25 @@
     @weakify(self);
     dispatch_once(&onceToken, ^{
         @strongify(self);
+        
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         NSString *identifier = [XPPasswordTool isSetPassword] ? @"XPUnlockViewController" : @"XPSetPasswordViewController";
         UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:identifier];
         [self presentViewController:vc animated:NO completion:^{
             
             self.navigationController.view.hidden = NO;
-            
+          
         }];
+        
     });
+
+      [self appCommentOnTheDetails];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
     [[IQKeyboardManager sharedManager] setEnable:YES];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
 }
@@ -141,9 +151,6 @@
             }
             [self.userAlbums removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-            //显示广告
-            [self startShowAdMob];
             
             if (0 == self.userAlbums.count) {
                 
@@ -276,32 +283,30 @@
         if (nil == album) return;
         [self.userAlbums addObject:album];
         [self.tableView reloadData];
-        //显示广告
-        [self startShowAdMob];
-        
     }];
     [popupView show];
     
 }
 
 
-//广点通广告加载
--(void)loadAdGDTData{
-    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
-    _interstitialObj.delegate = self;
-    [_interstitialObj loadAd];
+-(void)appCommentOnTheDetails{
     
-}
-
--(void)startShowAdMob{
+    CKAlertViewController *alertVC = [CKAlertViewController alertControllerWithTitle:@"" message:@"觉得不错，给我们一个好评~~~~~~~" ];
+    
+    CKAlertAction *cancel = [CKAlertAction actionWithTitle:@"算了" handler:^(CKAlertAction *action) {
+        NSLog(@"点击了 %@ 按钮",action.title);
+    }];
+    
+    CKAlertAction *sure = [CKAlertAction actionWithTitle:@"好哒" handler:^(CKAlertAction *action) {
+        NSLog(@"点击了 %@ 按钮",action.title);
         
-[_interstitialObj presentFromRootViewController:self];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPCommentURL]];
+        
+    }];
+    [alertVC addAction:cancel];
+    [alertVC addAction:sure];
     
-}
-#pragma mark  广点通广告---------
-- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-
-    [_interstitialObj loadAd];
+    [self presentViewController:alertVC animated:NO completion:nil];
 }
 
 @end

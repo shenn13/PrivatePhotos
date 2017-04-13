@@ -60,6 +60,7 @@
         if (nil == rootVc.presentedViewController || ![rootVc.presentedViewController isKindOfClass:[XPUnlockViewController class]]) {
             
             [rootVc.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UIViewController *unlockVc = [mainStoryboard instantiateViewControllerWithIdentifier:@"XPUnlockViewController"];
             

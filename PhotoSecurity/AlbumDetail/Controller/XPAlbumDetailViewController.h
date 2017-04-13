@@ -9,13 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class XPAlbumModel;
-#import "GDTMobInterstitial.h"
 
-@interface XPAlbumDetailViewController : UICollectionViewController<GDTMobInterstitialDelegate>{
-    
-    GDTMobInterstitial *_interstitialObj;
-}
 
+@interface XPAlbumDetailViewController : UICollectionViewController
 
 @property (nonatomic, strong) XPAlbumModel *album;
 
