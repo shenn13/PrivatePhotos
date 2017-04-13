@@ -50,7 +50,6 @@
 		548055DE1E6702D70040143A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055DB1E6702D70040143A /* AppDelegate.m */; };
 		548055E01E6702D70040143A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055DD1E6702D70040143A /* main.m */; };
 		548055E91E6705F80040143A /* XPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055E81E6705F80040143A /* XPHomeViewController.m */; };
-		6407ECAB1E9F6F3500988A01 /* CKAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6407ECAA1E9F6F3500988A01 /* CKAlertViewController.m */; };
 		64EB3CB41E961F8A00A32B4E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB31E961F8A00A32B4E /* libz.tbd */; };
 		64EB3CB61E961F9800A32B4E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB51E961F9800A32B4E /* libstdc++.tbd */; };
 		64EB3CB81E961FA200A32B4E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */; };
@@ -151,8 +150,6 @@
 		548055DD1E6702D70040143A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		548055E71E6705F80040143A /* XPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPHomeViewController.h; sourceTree = "<group>"; };
 		548055E81E6705F80040143A /* XPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPHomeViewController.m; sourceTree = "<group>"; };
-		6407ECA91E9F6F3500988A01 /* CKAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKAlertViewController.h; sourceTree = "<group>"; };
-		6407ECAA1E9F6F3500988A01 /* CKAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKAlertViewController.m; sourceTree = "<group>"; };
 		64EB3CB31E961F8A00A32B4E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		64EB3CB51E961F9800A32B4E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -465,7 +462,6 @@
 		548055C11E6701750040143A /* PhotoSecurity */ = {
 			isa = PBXGroup;
 			children = (
-				6407ECA81E9F6F3500988A01 /* CKAlertViewController */,
 				548055CE1E6701750040143A /* Assets.xcassets */,
 				548055D01E6701750040143A /* LaunchScreen.storyboard */,
 				548055CB1E6701750040143A /* Main.storyboard */,
@@ -514,15 +510,6 @@
 				129C3CDD1E6D14E600A52448 /* XPUnlockViewController.m */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		6407ECA81E9F6F3500988A01 /* CKAlertViewController */ = {
-			isa = PBXGroup;
-			children = (
-				6407ECA91E9F6F3500988A01 /* CKAlertViewController.h */,
-				6407ECAA1E9F6F3500988A01 /* CKAlertViewController.m */,
-			);
-			path = CKAlertViewController;
 			sourceTree = "<group>";
 		};
 		64EB3CC71E96200E00A32B4E /* libs */ = {
@@ -698,7 +685,6 @@
 				1226BC341E8515D00022C882 /* XMFTPHelper.m in Sources */,
 				1212BFE31E83590C00BCD9E7 /* QLPreviewController+XP.m in Sources */,
 				548055DE1E6702D70040143A /* AppDelegate.m in Sources */,
-				6407ECAB1E9F6F3500988A01 /* CKAlertViewController.m in Sources */,
 				122E01331E714EF700CE8E4C /* XPPhotoCollectionViewCell.m in Sources */,
 				122EE04C1E67C40800FCAF98 /* XPNavigationController.m in Sources */,
 				1226BC301E8515D00022C882 /* AsyncSocket.m in Sources */,

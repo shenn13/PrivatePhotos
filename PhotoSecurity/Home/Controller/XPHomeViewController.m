@@ -14,8 +14,6 @@
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
 
-#import "CKAlertViewController.h"
-
 @interface XPHomeViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 /// 用户的相册数据
@@ -286,28 +284,6 @@
     [popupView show];
     
 }
-
-
--(void)appCommentOnTheDetails{
-    
-    CKAlertViewController *alertVC = [CKAlertViewController alertControllerWithTitle:@"" message:@"觉得不错，给我们一个好评~~~~~~~" ];
-    
-    CKAlertAction *cancel = [CKAlertAction actionWithTitle:@"算了" handler:^(CKAlertAction *action) {
-        NSLog(@"点击了 %@ 按钮",action.title);
-    }];
-    
-    CKAlertAction *sure = [CKAlertAction actionWithTitle:@"好哒" handler:^(CKAlertAction *action) {
-        NSLog(@"点击了 %@ 按钮",action.title);
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPCommentURL]];
-        
-    }];
-    [alertVC addAction:cancel];
-    [alertVC addAction:sure];
-    
-    [self presentViewController:alertVC animated:NO completion:nil];
-}
-
 
 //广点通广告加载
 -(void)loadAdGDTData{
