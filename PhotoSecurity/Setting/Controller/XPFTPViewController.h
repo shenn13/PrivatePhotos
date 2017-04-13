@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GDTMobInterstitial.h"
 
-
-@interface XPFTPViewController : UIViewController
+@interface XPFTPViewController : UIViewController<GDTMobInterstitialDelegate>{
+    GDTMobInterstitial *_interstitialObj;
+}
 
 @end

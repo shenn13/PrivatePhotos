@@ -16,7 +16,6 @@
 
 #import "CKAlertViewController.h"
 
-
 @interface XPHomeViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 /// 用户的相册数据
@@ -33,6 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self loadAdGDTData];
     
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     self.tableView.emptyDataSetSource = self;
@@ -40,8 +41,6 @@
     self.tableView.tableFooterView = [UIView new];
     self.navigationController.view.hidden = YES;
     self.userAlbums = [[XPSQLiteManager sharedSQLiteManager] requestUserAlbums];
-    
-   
     
 }
 
@@ -58,7 +57,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [[IQKeyboardManager sharedManager] setEnable:NO];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     // 打开应用必须先解锁才能使用
@@ -66,20 +64,15 @@
     @weakify(self);
     dispatch_once(&onceToken, ^{
         @strongify(self);
-        
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         NSString *identifier = [XPPasswordTool isSetPassword] ? @"XPUnlockViewController" : @"XPSetPasswordViewController";
         UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:identifier];
         [self presentViewController:vc animated:NO completion:^{
             
             self.navigationController.view.hidden = NO;
-          
+            
         }];
-        
     });
-
-      [self appCommentOnTheDetails];
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -151,6 +144,9 @@
             }
             [self.userAlbums removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            
+            //显示广告
+            [self startShowAdMob];
             
             if (0 == self.userAlbums.count) {
                 
@@ -283,6 +279,9 @@
         if (nil == album) return;
         [self.userAlbums addObject:album];
         [self.tableView reloadData];
+        //显示广告
+        [self startShowAdMob];
+        
     }];
     [popupView show];
     
@@ -307,6 +306,26 @@
     [alertVC addAction:sure];
     
     [self presentViewController:alertVC animated:NO completion:nil];
+}
+
+
+//广点通广告加载
+-(void)loadAdGDTData{
+    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
+    _interstitialObj.delegate = self;
+    [_interstitialObj loadAd];
+    
+}
+
+-(void)startShowAdMob{
+        
+[_interstitialObj presentFromRootViewController:self];
+    
+}
+#pragma mark  广点通广告---------
+- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
+
+    [_interstitialObj loadAd];
 }
 
 @end

@@ -135,9 +135,32 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setBool:YES forKey:XPTouchEnableStateKey];
             [userDefaults synchronize];
-
+            
+            
+            //显示广告**********************************************
+            [self startShowAdMob];
+            //*****************************************************
+            
         }];
     }
+}
+//广点通广告加载
+-(void)loadAdGDTData{
+    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
+    _interstitialObj.delegate = self;
+    [_interstitialObj loadAd];
+}
+
+-(void)startShowAdMob{
+    [_interstitialObj presentFromRootViewController:self];
+}
+
+#pragma mark  广点通广告---------
+- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
+    [_interstitialObj loadAd];
+}
+- (void)interstitialFailToLoadAd:(GDTMobInterstitial *)interstitial error:(NSError *)error{
+    [_interstitialObj loadAd];
 }
 
 
