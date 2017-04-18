@@ -270,6 +270,7 @@
         
         NSString *albumName = [text trim];
         if (albumName.length == 0) {
+            
             return NSLocalizedString(@"Album name can not be empty", nil);
         }
         return @"";
