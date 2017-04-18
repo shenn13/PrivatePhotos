@@ -50,6 +50,7 @@
 		548055DE1E6702D70040143A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055DB1E6702D70040143A /* AppDelegate.m */; };
 		548055E01E6702D70040143A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055DD1E6702D70040143A /* main.m */; };
 		548055E91E6705F80040143A /* XPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548055E81E6705F80040143A /* XPHomeViewController.m */; };
+		649F34EE1EA5D8C70072A045 /* CKAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F34ED1EA5D8C70072A045 /* CKAlertViewController.m */; };
 		64EB3CB41E961F8A00A32B4E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB31E961F8A00A32B4E /* libz.tbd */; };
 		64EB3CB61E961F9800A32B4E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB51E961F9800A32B4E /* libstdc++.tbd */; };
 		64EB3CB81E961FA200A32B4E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */; };
@@ -60,7 +61,6 @@
 		64EB3CC21E961FD000A32B4E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CC11E961FD000A32B4E /* Security.framework */; };
 		64EB3CC41E961FD900A32B4E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CC31E961FD900A32B4E /* QuartzCore.framework */; };
 		64EB3CC61E961FEA00A32B4E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CC51E961FEA00A32B4E /* MediaPlayer.framework */; };
-		64EB3CCE1E96200E00A32B4E /* libGDTMobSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CCD1E96200E00A32B4E /* libGDTMobSDK.a */; };
 		64EB3CD01E9621D700A32B4E /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EB3CCF1E9621D700A32B4E /* UMMobClick.framework */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +150,8 @@
 		548055DD1E6702D70040143A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		548055E71E6705F80040143A /* XPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPHomeViewController.h; sourceTree = "<group>"; };
 		548055E81E6705F80040143A /* XPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPHomeViewController.m; sourceTree = "<group>"; };
+		649F34EC1EA5D8C70072A045 /* CKAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKAlertViewController.h; sourceTree = "<group>"; };
+		649F34ED1EA5D8C70072A045 /* CKAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKAlertViewController.m; sourceTree = "<group>"; };
 		64EB3CB31E961F8A00A32B4E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		64EB3CB51E961F9800A32B4E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		64EB3CB71E961FA200A32B4E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -160,12 +162,6 @@
 		64EB3CC11E961FD000A32B4E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		64EB3CC31E961FD900A32B4E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		64EB3CC51E961FEA00A32B4E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		64EB3CC81E96200E00A32B4E /* GDTMobBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDTMobBannerView.h; sourceTree = "<group>"; };
-		64EB3CC91E96200E00A32B4E /* GDTMobInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDTMobInterstitial.h; sourceTree = "<group>"; };
-		64EB3CCA1E96200E00A32B4E /* GDTNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDTNativeAd.h; sourceTree = "<group>"; };
-		64EB3CCB1E96200E00A32B4E /* GDTSplashAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDTSplashAd.h; sourceTree = "<group>"; };
-		64EB3CCC1E96200E00A32B4E /* GDTTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDTTrack.h; sourceTree = "<group>"; };
-		64EB3CCD1E96200E00A32B4E /* libGDTMobSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDTMobSDK.a; sourceTree = "<group>"; };
 		64EB3CCF1E9621D700A32B4E /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		822EE1E3D6B604F264943CC6 /* Pods-PhotoSecurity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoSecurity.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoSecurity/Pods-PhotoSecurity.release.xcconfig"; sourceTree = "<group>"; };
 		CB161BA3F61719AAE63C0CFE /* libPods-PhotoSecurity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotoSecurity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,7 +179,6 @@
 				64EB3CBE1E961FBE00A32B4E /* SystemConfiguration.framework in Frameworks */,
 				64EB3CBC1E961FB600A32B4E /* CoreGraphics.framework in Frameworks */,
 				64EB3CBA1E961FAC00A32B4E /* libsqlite3.tbd in Frameworks */,
-				64EB3CCE1E96200E00A32B4E /* libGDTMobSDK.a in Frameworks */,
 				64EB3CB81E961FA200A32B4E /* CoreTelephony.framework in Frameworks */,
 				64EB3CB61E961F9800A32B4E /* libstdc++.tbd in Frameworks */,
 				64EB3CB41E961F8A00A32B4E /* libz.tbd in Frameworks */,
@@ -240,7 +235,6 @@
 		1224BB071E6E8FD000CCCD73 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				64EB3CC71E96200E00A32B4E /* libs */,
 				1224BB081E6E8FE800CCCD73 /* GHPopupEditView */,
 				1226BC221E8515D00022C882 /* XMFTPServer */,
 			);
@@ -462,6 +456,7 @@
 		548055C11E6701750040143A /* PhotoSecurity */ = {
 			isa = PBXGroup;
 			children = (
+				649F34EB1EA5D8C70072A045 /* CKAlertViewController */,
 				548055CE1E6701750040143A /* Assets.xcassets */,
 				548055D01E6701750040143A /* LaunchScreen.storyboard */,
 				548055CB1E6701750040143A /* Main.storyboard */,
@@ -512,17 +507,13 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		64EB3CC71E96200E00A32B4E /* libs */ = {
+		649F34EB1EA5D8C70072A045 /* CKAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
-				64EB3CC81E96200E00A32B4E /* GDTMobBannerView.h */,
-				64EB3CC91E96200E00A32B4E /* GDTMobInterstitial.h */,
-				64EB3CCA1E96200E00A32B4E /* GDTNativeAd.h */,
-				64EB3CCB1E96200E00A32B4E /* GDTSplashAd.h */,
-				64EB3CCC1E96200E00A32B4E /* GDTTrack.h */,
-				64EB3CCD1E96200E00A32B4E /* libGDTMobSDK.a */,
+				649F34EC1EA5D8C70072A045 /* CKAlertViewController.h */,
+				649F34ED1EA5D8C70072A045 /* CKAlertViewController.m */,
 			);
-			path = libs;
+			path = CKAlertViewController;
 			sourceTree = "<group>";
 		};
 		BBAC00311D4E9236DDB3DD0B /* Pods */ = {
@@ -685,6 +676,7 @@
 				1226BC341E8515D00022C882 /* XMFTPHelper.m in Sources */,
 				1212BFE31E83590C00BCD9E7 /* QLPreviewController+XP.m in Sources */,
 				548055DE1E6702D70040143A /* AppDelegate.m in Sources */,
+				649F34EE1EA5D8C70072A045 /* CKAlertViewController.m in Sources */,
 				122E01331E714EF700CE8E4C /* XPPhotoCollectionViewCell.m in Sources */,
 				122EE04C1E67C40800FCAF98 /* XPNavigationController.m in Sources */,
 				1226BC301E8515D00022C882 /* AsyncSocket.m in Sources */,

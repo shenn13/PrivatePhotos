@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GDTMobInterstitial.h"
 
-@interface XPSettingViewController : UITableViewController<GDTMobInterstitialDelegate>{
-    GDTMobInterstitial *_interstitialObj;
-}
+
+@interface XPSettingViewController : UITableViewController
 
 @end

@@ -30,21 +30,23 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
+#define kMainScreenColor [UIColor colorWithRed:0.004 green:0.651 blue:0.996 alpha:1.000]
+
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
-#define GDT_APP_ID @"1105943851"//REP_FLG_GDTID
-#define GDT_APP_KID @"2050720004809948"//REP_FLG_KID
-#define GDT_APP_CID @"8070623034701917"//REP_FLG_CID
-#define GDT_APP_BID @"9050929178175328"//REP_FLG_BID
+//AdMob APPID 原生广告ID 插屏广告ID  所有APP固定 三个ID
+#define AdMob_APP_ID @"ca-app-pub-1195236589504706~3173807873"
+#define AdMob_NativeExpressAdUnitID @"ca-app-pub-1195236589504706/3034207071"
+#define AdMob_CID @"ca-app-pub-1195236589504706/6127274271"
+#define AdMob_BannerViewAdUnitID @"ca-app-pub-1195236589504706/4650541079"
+
 //友盟统计
 #define UM_APP_KEY @"58eca1825312dd405600051b"
-
-
 
 /*******************
  APP评分跳转链接
  ******************* */
-#define APPCommentURL @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1196204999&pageNumber=0&sortOrdering=2&mt=8"
+#define APPCommentURL @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1226305784&pageNumber=0&sortOrdering=2&mt=8"
 
 /// 处理Block循环引用
 #define weakify(obj)    autoreleasepool{} __weak __typeof(obj) weak##obj = obj;

@@ -7,14 +7,13 @@
 //
 
 #import "XPChangePasswordViewController.h"
-#import "GDTMobBannerView.h"
-
-
 #import <CoreLocation/CLLocationManagerDelegate.h>
 #import <StoreKit/StoreKit.h>
+@import GoogleMobileAds;
 
-@interface XPChangePasswordViewController ()<GDTMobBannerViewDelegate>{
-     GDTMobBannerView *_bannerView;
+
+@interface XPChangePasswordViewController (){
+     GADBannerView *_bannerView;
 }
 
 /// 旧密码输入框
@@ -37,27 +36,15 @@
     self.title = NSLocalizedString(@"Change Password", nil);
     
  
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-       _bannerView = [[GDTMobBannerView alloc] initWithFrame:CGRectMake(0,kScreenHeight - 64 - 65,kScreenWidth,65) appkey:GDT_APP_ID placementId:GDT_APP_BID];
-        
-        
-    } else {
-        _bannerView = [[GDTMobBannerView alloc] initWithFrame:CGRectMake(0,kScreenHeight - 64 - 50,kScreenWidth,50) appkey:GDT_APP_ID placementId:GDT_APP_BID];
-    }
-    
-    
-    if (IS_OS_7_OR_LATER) {
-        self.extendedLayoutIncludesOpaqueBars = NO;
-        self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
-    }
-    
-    _bannerView.delegate = self;
-    _bannerView.currentViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
-    _bannerView.isAnimationOn = YES;
-    _bannerView.showCloseBtn = YES;
-    _bannerView.isGpsOn = YES;
-    [_bannerView loadAdAndShow];
+    CGPoint origin = CGPointMake(0, kScreenHeight - 65 - 64);
+    _bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(kScreenWidth, 65)) origin:origin];
+    _bannerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_bannerView];
+    
+    _bannerView.adUnitID = AdMob_BannerViewAdUnitID;
+    _bannerView.rootViewController = self;
+    GADRequest *request = [GADRequest request];
+    [_bannerView loadRequest:request];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -8,17 +8,19 @@
 
 #import "XPFTPViewController.h"
 #import "XMFTPServer.h"
-#import "GDTMobBannerView.h"
 #import <CoreLocation/CLLocationManagerDelegate.h>
 #import <StoreKit/StoreKit.h>
 
-@interface XPFTPViewController ()<GDTMobBannerViewDelegate>{
-    GDTMobBannerView *_bannerView;
+@import GoogleMobileAds;
+
+@interface XPFTPViewController ()<GADBannerViewDelegate,GADInterstitialDelegate>{
+     GADBannerView *_bannerView;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (nonatomic, strong) XMFTPServer *ftpServer;
-
+//插页广告
+@property(nonatomic, strong) GADInterstitial *interstitial;
 @end
 
 @implementation XPFTPViewController
@@ -28,32 +30,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadAdGDTData];
+    [self setInterstitial];
     
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        _bannerView = [[GDTMobBannerView alloc] initWithFrame:CGRectMake(0,kScreenHeight - 64 - 65,kScreenWidth,65) appkey:GDT_APP_ID placementId:GDT_APP_BID];
-        
-        
-    } else {
-        _bannerView = [[GDTMobBannerView alloc] initWithFrame:CGRectMake(0,kScreenHeight - 64 - 50,kScreenWidth,50) appkey:GDT_APP_ID placementId:GDT_APP_BID];
-    }
-    
-    
-    if (IS_OS_7_OR_LATER) {
-        self.extendedLayoutIncludesOpaqueBars = NO;
-        self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
-    }
-    
-    _bannerView.delegate = self;
-    _bannerView.currentViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
-    _bannerView.isAnimationOn = YES;
-    _bannerView.showCloseBtn = YES;
-    _bannerView.isGpsOn = YES;
-    [_bannerView loadAdAndShow];
+    CGPoint origin = CGPointMake(0, kScreenHeight - 65 - 64);
+    _bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(kScreenWidth, 65)) origin:origin];
+    _bannerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_bannerView];
     
+    _bannerView.adUnitID = AdMob_BannerViewAdUnitID;
+    _bannerView.rootViewController = self;
+    GADRequest *request = [GADRequest request];
+    [_bannerView loadRequest:request];
+    
     self.title = NSLocalizedString(@"FTP Service", nil);
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,6 +55,8 @@
 }
 
 - (void)dealloc {
+    
+    
     [self stopFTPServer];
 }
 
@@ -69,15 +64,9 @@
 
 - (IBAction)toggleButtonAction:(UIButton *)sender {
     
-    
-    //显示广告**********************************************
-    [self startShowAdMob];
-    //*****************************************************
-    
     sender.selected = !sender.selected;
     
     if (sender.selected) {
-        
         unsigned int ftpPort = 23023;
         NSString *ip = [XMFTPHelper localIPAddress];
         if (![ip isIP]) {
@@ -97,8 +86,15 @@
     } else {
         
         self.textField.text = nil;
+        
         [self stopFTPServer];
+        
     }
+    
+    
+    //显示广告**********************************************
+    [self startShowAdMob];
+    //*****************************************************
 }
 
 #pragma mark - Private
@@ -111,21 +107,38 @@
     }
     
 }
-
-//广点通广告加载
--(void)loadAdGDTData{
-    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
-    _interstitialObj.delegate = self;
-    [_interstitialObj loadAd];
+//初始化插页广告
+- (void)setInterstitial {
     
+    self.interstitial = [self createNewInterstitial];
+}
+
+//这个部分是因为多次调用 所以封装成一个方法
+- (GADInterstitial *)createNewInterstitial {
+    
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:AdMob_CID];
+    interstitial.delegate = self;
+    [interstitial loadRequest:[GADRequest request]];
+    return interstitial;
 }
 -(void)startShowAdMob{
-    [_interstitialObj presentFromRootViewController:self];
+    
+    if ([self.interstitial isReady]) {
+        [self.interstitial presentFromRootViewController:self];
+    }else{
+        
+        NSLog(@"not isReady");
+    }
 }
 
-#pragma mark  广点通广告---------
-- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-    [_interstitialObj loadAd];
+#pragma mark - GADInterstitialDelegate -
+//GADInterstitial 是仅限一次性使用的对象。若要请求另一个插页式广告，您需要分配一个新的 GADInterstitial 对象。
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+    [self setInterstitial];
+}
+//分配失败重新分配
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self setInterstitial];
 }
 
 @end

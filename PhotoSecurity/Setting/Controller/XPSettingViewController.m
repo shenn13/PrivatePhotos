@@ -10,7 +10,11 @@
 #import "XPSettingCell.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
-@interface XPSettingViewController ()
+@import GoogleMobileAds;
+
+@interface XPSettingViewController ()<GADBannerViewDelegate,GADInterstitialDelegate>
+//插页广告
+@property(nonatomic, strong) GADInterstitial *interstitial;
 
 @end
 
@@ -20,6 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setInterstitial];
     
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     
@@ -144,25 +150,36 @@
         }];
     }
 }
-//广点通广告加载
--(void)loadAdGDTData{
-    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
-    _interstitialObj.delegate = self;
-    [_interstitialObj loadAd];
+//初始化插页广告
+- (void)setInterstitial {
+    
+    self.interstitial = [self createNewInterstitial];
 }
 
+//这个部分是因为多次调用 所以封装成一个方法
+- (GADInterstitial *)createNewInterstitial {
+    
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:AdMob_CID];
+    interstitial.delegate = self;
+    [interstitial loadRequest:[GADRequest request]];
+    return interstitial;
+}
 -(void)startShowAdMob{
-    [_interstitialObj presentFromRootViewController:self];
+    
+    if ([self.interstitial isReady]) {
+        [self.interstitial presentFromRootViewController:self];
+    }
 }
 
-#pragma mark  广点通广告---------
-- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
-    [_interstitialObj loadAd];
+#pragma mark - GADInterstitialDelegate -
+//GADInterstitial 是仅限一次性使用的对象。若要请求另一个插页式广告，您需要分配一个新的 GADInterstitial 对象。
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+    [self setInterstitial];
 }
-- (void)interstitialFailToLoadAd:(GDTMobInterstitial *)interstitial error:(NSError *)error{
-    [_interstitialObj loadAd];
+//分配失败重新分配
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self setInterstitial];
 }
-
 
 
 @end

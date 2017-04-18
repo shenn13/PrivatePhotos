@@ -4,5 +4,6 @@ target 'PhotoSecurity' do
 pod 'MBProgressHUD' 
 pod 'IQKeyboardManager' 
 pod 'DZNEmptyDataSet'
-pod 'FMDB' 
+pod 'FMDB'
+pod 'Firebase/AdMob'
 end

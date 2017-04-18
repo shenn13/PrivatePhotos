@@ -17,12 +17,13 @@
 #import <AVFoundation/AVFoundation.h>
 #import <QuickLook/QuickLook.h>
 
+#import "CKAlertViewController.h"
 
 #define OPERATION_TOOLBAR_TAG                   999
 #define OPERATION_TOOLBAR_HEIGHT                49.0
 #define OPERATION_TOOLBAR_INDICATOR_ITEM_TAG    123
 
-
+@import GoogleMobileAds;
 @interface XPAlbumDetailViewController ()
 <DZNEmptyDataSetSource,
 DZNEmptyDataSetDelegate,
@@ -30,7 +31,7 @@ XPPhotoPickerViewControllerDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 QLPreviewControllerDataSource,
-QLPreviewControllerDelegate>
+QLPreviewControllerDelegate,GADBannerViewDelegate,GADInterstitialDelegate>
 
 /// 该相册下的图片数据
 @property (nonatomic, strong) NSMutableArray<XPPhotoModel *> *photos;
@@ -38,7 +39,8 @@ QLPreviewControllerDelegate>
 @property (nonatomic, assign) BOOL editing;
 /// 选中列表(key为下标索引,value固定为@(YES))
 @property (nonatomic, strong) NSMutableDictionary *selectMaps;
-
+//插页广告
+@property(nonatomic, strong) GADInterstitial *interstitial;
 @end
 
 @implementation XPAlbumDetailViewController
@@ -50,7 +52,15 @@ static CGFloat const kCellBorderMargin = 1.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadAdGDTData];
+   [self setInterstitial];
+    
+    
+    NSInteger x = arc4random() % 7;
+    
+    if (4 == x) {
+        
+        [self appCommentOnTheDetails];
+    }
     
     self.title = self.album.name;
     
@@ -311,6 +321,7 @@ static CGFloat const kCellBorderMargin = 1.0;
         //*****************************************************
         
     } else {
+        
         [XPProgressHUD showFailureHUD:NSLocalizedString(@"Photo saved failed", nil) toView:self.view];
     }
     
@@ -375,6 +386,7 @@ static CGFloat const kCellBorderMargin = 1.0;
         @strongify(self);
         XPPhotoPickerViewController *pickerVc = [[XPPhotoPickerViewController alloc] init];
         XPNavigationController *nav = [[XPNavigationController alloc] initWithRootViewController:pickerVc];
+        [nav.navigationBar setBarTintColor:kMainScreenColor];
         pickerVc.delegate = self;
         [self presentViewController:nav animated:YES completion:nil];
     }]];
@@ -593,22 +605,55 @@ static CGFloat const kCellBorderMargin = 1.0;
     }
 }
 
-//广点通广告加载
--(void)loadAdGDTData{
-    _interstitialObj = [[GDTMobInterstitial alloc] initWithAppkey:GDT_APP_ID placementId:GDT_APP_CID];
-    _interstitialObj.delegate = self;
-    [_interstitialObj loadAd];
+//初始化插页广告
+- (void)setInterstitial {
     
+    self.interstitial = [self createNewInterstitial];
 }
 
+//这个部分是因为多次调用 所以封装成一个方法
+- (GADInterstitial *)createNewInterstitial {
+    
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:AdMob_CID];
+    interstitial.delegate = self;
+    [interstitial loadRequest:[GADRequest request]];
+    return interstitial;
+}
 -(void)startShowAdMob{
-    [_interstitialObj presentFromRootViewController:self];
+    
+    if ([self.interstitial isReady]) {
+        [self.interstitial presentFromRootViewController:self];
+    }
 }
-#pragma mark  广点通广告---------
 
-- (void)interstitialDidDismissScreen:(GDTMobInterstitial *)interstitial{
+#pragma mark - GADInterstitialDelegate -
+//GADInterstitial 是仅限一次性使用的对象。若要请求另一个插页式广告，您需要分配一个新的 GADInterstitial 对象。
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+    [self setInterstitial];
+}
+//分配失败重新分配
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self setInterstitial];
+}
 
-    [_interstitialObj loadAd];
+-(void)appCommentOnTheDetails{
+    
+    CKAlertViewController *alertVC = [CKAlertViewController alertControllerWithTitle:@"" message:NSLocalizedString(@"please give a high praise!!!~~~~~~~", nil) ];
+    
+    CKAlertAction *cancel = [CKAlertAction actionWithTitle:NSLocalizedString(@"No~~", nil) handler:^(CKAlertAction *action) {
+        NSLog(@"点击了 %@ 按钮",action.title);
+    }];
+    
+    CKAlertAction *sure = [CKAlertAction actionWithTitle:NSLocalizedString(@"OK~~", nil) handler:^(CKAlertAction *action) {
+        NSLog(@"点击了 %@ 按钮",action.title);
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APPCommentURL]];
+        
+    }];
+    [alertVC addAction:cancel];
+    [alertVC addAction:sure];
+    
+    [self presentViewController:alertVC animated:NO completion:nil];
 }
 
 
