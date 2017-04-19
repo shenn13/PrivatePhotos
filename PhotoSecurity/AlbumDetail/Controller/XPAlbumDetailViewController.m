@@ -683,7 +683,7 @@ static CGFloat const kCellBorderMargin = 1.0;
     if ([newVersion floatValue] > [localVersion floatValue]){
         
         
-        CKAlertViewController *alertVC = [CKAlertViewController alertControllerWithTitle:@"升级提示" message:NSLocalizedString(@"发现新版本,是否下载新版本？", nil) ];
+        CKAlertViewController *alertVC = [CKAlertViewController alertControllerWithTitle:NSLocalizedString(@"Update", nil) message:NSLocalizedString(@"Found the new version, whether to download the new version?", nil) ];
         
         CKAlertAction *cancel = [CKAlertAction actionWithTitle:NSLocalizedString(@"No~~", nil) handler:^(CKAlertAction *action) {
             NSLog(@"点击了 %@ 按钮",action.title);
