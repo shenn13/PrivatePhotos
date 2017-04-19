@@ -38,12 +38,12 @@
     
     [self.navigationController.navigationBar setBarTintColor:kMainScreenColor];
     
-    
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
     self.navigationController.view.hidden = YES;
+    
     self.userAlbums = [[XPSQLiteManager sharedSQLiteManager] requestUserAlbums];
     
 }
@@ -61,13 +61,16 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [[IQKeyboardManager sharedManager] setEnable:NO];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     // 打开应用必须先解锁才能使用
     static dispatch_once_t onceToken;
+    
     @weakify(self);
     dispatch_once(&onceToken, ^{
         @strongify(self);
+        
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         NSString *identifier = [XPPasswordTool isSetPassword] ? @"XPUnlockViewController" : @"XPSetPasswordViewController";
         UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:identifier];
@@ -77,16 +80,19 @@
             
         }];
     });
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
     [[IQKeyboardManager sharedManager] setEnable:YES];
+    
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([segue.identifier isEqualToString:@"AlbumDetailSegue"]) {
         XPAlbumDetailViewController *detailVc = (XPAlbumDetailViewController *)segue.destinationViewController;
         detailVc.album = (XPAlbumModel *)sender;
@@ -96,6 +102,7 @@
 #pragma mark - <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     return 1;
 }
 
@@ -104,25 +111,31 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     static NSString * const identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    
     return cell;
 }
 
 #pragma mark - <UITableViewDelegate>
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     XPAlbumModel *album = self.userAlbums[indexPath.row];
     XPAlbumCell *albumCell = (XPAlbumCell *)cell;
     [albumCell configureWithAlbum:album];
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     XPAlbumModel *album = self.userAlbums[indexPath.row];
     [self performSegueWithIdentifier:@"AlbumDetailSegue" sender:album];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         XPAlbumModel *album = self.userAlbums[indexPath.row];
@@ -249,6 +262,7 @@
             _reSequence = NO;
             [[XPSQLiteManager sharedSQLiteManager] resortAlbums:self.userAlbums];
         }
+        
     } else {
         
         self.tableView.editing = YES;

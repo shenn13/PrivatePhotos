@@ -29,6 +29,17 @@
     
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     
+    
+    
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0/*延迟执行时间*/ * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        //显示广告**********************************************
+        [self startShowAdMob];
+        //*****************************************************
+    });
+    
+   
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,6 +60,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    
     return cell;
 }
 
@@ -78,6 +90,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (1 == indexPath.section) {
         
         [self performSegueWithIdentifier:@"ChangePasswordSegue" sender:nil];
@@ -142,7 +155,6 @@
             [userDefaults setBool:YES forKey:XPTouchEnableStateKey];
             [userDefaults synchronize];
             
-            
             //显示广告**********************************************
             [self startShowAdMob];
             //*****************************************************
@@ -167,6 +179,7 @@
 -(void)startShowAdMob{
     
     if ([self.interstitial isReady]) {
+        
         [self.interstitial presentFromRootViewController:self];
     }
 }

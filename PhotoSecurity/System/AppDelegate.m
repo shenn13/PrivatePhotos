@@ -10,7 +10,7 @@
 #import "GHPopupEditView.h"
 #import "XPUnlockViewController.h"
 #import "UMMobClick/MobClick.h"
-
+#import "CKAlertViewController.h"
 @interface AppDelegate ()
 
 @end
