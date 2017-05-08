@@ -7,14 +7,11 @@
 //
 
 #import "XPChangePasswordViewController.h"
-#import <CoreLocation/CLLocationManagerDelegate.h>
-#import <StoreKit/StoreKit.h>
 @import GoogleMobileAds;
-
-
-@interface XPChangePasswordViewController (){
-     GADBannerView *_bannerView;
+@interface XPChangePasswordViewController ()<GADBannerViewDelegate,GADInterstitialDelegate>{
+    GADBannerView *_bannerView;
 }
+
 
 /// 旧密码输入框
 @property (weak, nonatomic) IBOutlet UITextField *oldPasswordTextFiled;
@@ -22,8 +19,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 /// 新密码确认框
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
-
-
+//插页广告
+@property(nonatomic, strong) GADInterstitial *interstitial;
 @end
 
 @implementation XPChangePasswordViewController
@@ -32,10 +29,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = NSLocalizedString(@"Change Password", nil);
     
- 
+    [self setInterstitial];
+    
+    
     CGPoint origin = CGPointMake(0, kScreenHeight - 65 - 64);
     _bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(kScreenWidth, 65)) origin:origin];
     _bannerView.backgroundColor = [UIColor clearColor];
@@ -45,6 +43,7 @@
     _bannerView.rootViewController = self;
     GADRequest *request = [GADRequest request];
     [_bannerView loadRequest:request];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,10 +54,8 @@
 #pragma mark - Actions
 
 - (IBAction)settingButtonAction:(UIButton *)sender {
-    
     NSString *oldPassword = [self.oldPasswordTextFiled.text trim];
     if (0 == oldPassword.length) {
-        
         [self.oldPasswordTextFiled setText:nil];
         [self.oldPasswordTextFiled shake];
         return;
@@ -87,6 +84,38 @@
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [XPProgressHUD showSuccessHUD:NSLocalizedString(@"Password has been modified successfully", nil) toView:window];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+//初始化插页广告
+- (void)setInterstitial {
+    
+    self.interstitial = [self createNewInterstitial];
+}
+
+//这个部分是因为多次调用 所以封装成一个方法
+- (GADInterstitial *)createNewInterstitial {
+    
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:AdMob_CID];
+    interstitial.delegate = self;
+    [interstitial loadRequest:[GADRequest request]];
+    return interstitial;
+}
+
+#pragma mark - GADInterstitialDelegate -
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad{
+    
+    if ([self.interstitial isReady]) {
+        [self.interstitial presentFromRootViewController:self];
+    }else{
+        
+        NSLog(@"not isReady");
+    }
+}
+
+//分配失败重新分配
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self setInterstitial];
 }
 
 

@@ -25,9 +25,11 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForegroundNotificationAction:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
-    
     _unlockLogoView.layer.cornerRadius = _unlockLogoView.frame.size.width/2;
     _unlockLogoView.layer.masksToBounds = YES;
+    
+    
+    self.view.backgroundColor = [UIColor colorWithRed:240.0/255 green:241.0/255 blue:236.0/255 alpha:1];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -54,7 +56,6 @@
 #pragma mark - Actions
 
 - (IBAction)unlockButtonAction:(UIButton *)sender {
-    
     NSString *password = [self.passwordTextField.text trim];
     if (XPPasswordMinimalLength > password.length) {
         return [self.passwordTextField shake];
@@ -68,7 +69,6 @@
 }
 
 - (void)applicationWillEnterForegroundNotificationAction:(NSNotification *)sender {
-    
     [self prepareEnterPassword];
 }
 

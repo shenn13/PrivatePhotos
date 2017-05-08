@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface XPSettingViewController : UITableViewController
 
 @end

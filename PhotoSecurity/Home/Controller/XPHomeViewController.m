@@ -13,6 +13,7 @@
 #import "XPAlbumModel.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
+
 @import GoogleMobileAds;
 
 @interface XPHomeViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,GADBannerViewDelegate,GADInterstitialDelegate>
@@ -23,7 +24,6 @@
 @property (nonatomic, assign, getter=isReSequence) BOOL reSequence;
 //插页广告
 @property(nonatomic, strong) GADInterstitial *interstitial;
-
 @end
 
 @implementation XPHomeViewController
@@ -32,20 +32,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self setInterstitial];
+    
+   [self.navigationController.navigationBar setBarTintColor:kMainScreenColor];
+    self.view.backgroundColor = [UIColor colorWithRed:240.0/255 green:241.0/255 blue:236.0/255 alpha:1];
     
     
-    [self.navigationController.navigationBar setBarTintColor:kMainScreenColor];
     
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
     self.navigationController.view.hidden = YES;
-    
     self.userAlbums = [[XPSQLiteManager sharedSQLiteManager] requestUserAlbums];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,38 +59,29 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [[IQKeyboardManager sharedManager] setEnable:NO];
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
     // 打开应用必须先解锁才能使用
     static dispatch_once_t onceToken;
-    
     @weakify(self);
     dispatch_once(&onceToken, ^{
         @strongify(self);
-        
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         NSString *identifier = [XPPasswordTool isSetPassword] ? @"XPUnlockViewController" : @"XPSetPasswordViewController";
         UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:identifier];
         [self presentViewController:vc animated:NO completion:^{
-            
             self.navigationController.view.hidden = NO;
-            
         }];
     });
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
     [[IQKeyboardManager sharedManager] setEnable:YES];
-    
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     if ([segue.identifier isEqualToString:@"AlbumDetailSegue"]) {
         XPAlbumDetailViewController *detailVc = (XPAlbumDetailViewController *)segue.destinationViewController;
         detailVc.album = (XPAlbumModel *)sender;
@@ -102,7 +91,6 @@
 #pragma mark - <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 1;
 }
 
@@ -111,35 +99,28 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString * const identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    
     return cell;
 }
 
 #pragma mark - <UITableViewDelegate>
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     XPAlbumModel *album = self.userAlbums[indexPath.row];
     XPAlbumCell *albumCell = (XPAlbumCell *)cell;
     [albumCell configureWithAlbum:album];
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     XPAlbumModel *album = self.userAlbums[indexPath.row];
     [self performSegueWithIdentifier:@"AlbumDetailSegue" sender:album];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
         XPAlbumModel *album = self.userAlbums[indexPath.row];
-        
         NSString *title = [NSString stringWithFormat:@"%@ \"%@\"", NSLocalizedString(@"Delete", nil),album.name];
         NSString *message = NSLocalizedString(@"Are you sure you want to delete the album? All the pictures under the album will be deleted.", nil);
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
@@ -148,13 +129,10 @@
         @weakify(self);
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Delete Album", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             @strongify(self);
-            
             XPAlbumModel *album = self.userAlbums[indexPath.row];
-            
             BOOL success = [[XPSQLiteManager sharedSQLiteManager] deleteAlbumWithAlbum:album];
             if (!success) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
                     [XPProgressHUD showFailureHUD:NSLocalizedString(@"Delete fail.", nil) toView:self.view];
                 });
                 return;
@@ -162,18 +140,17 @@
             [self.userAlbums removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
-            //显示广告
-            [self startShowAdMob];
+            //显示广告**********************************************
+            [self setInterstitial];
+            //*****************************************************
+            
             
             if (0 == self.userAlbums.count) {
-                
                 [self.tableView reloadEmptyDataSet];
             }
         }]];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
-        
         if (iPad()) {
-            
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             alert.popoverPresentationController.sourceView = cell;
             // 直接cell.bounds会导致弹出框往左偏移不居中
@@ -227,7 +204,6 @@
 }
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
-    
     NSString *text = NSLocalizedString(@"Create a new album", nil);
     NSDictionary *attributes = @{
                                  NSFontAttributeName: [UIFont systemFontOfSize:16.0],
@@ -249,22 +225,18 @@
 #pragma mark - Actions
 
 - (IBAction)addButtonAction:(UIBarButtonItem *)sender {
-    
     [self showCreateAlbumAlert];
 }
 
 - (IBAction)editButtonAction:(UIBarButtonItem *)sender {
     if ([self.tableView isEditing]) {
         self.tableView.editing = NO;
-        
         sender.image = [UIImage imageNamed:@"icon-edit"];
         if (_reSequence) {
             _reSequence = NO;
             [[XPSQLiteManager sharedSQLiteManager] resortAlbums:self.userAlbums];
         }
-        
     } else {
-        
         self.tableView.editing = YES;
         sender.image = [UIImage imageNamed:@"icon-done"];
     }
@@ -276,15 +248,12 @@
  显示创建相册名称的弹窗
  */
 - (void)showCreateAlbumAlert {
-    
     GHPopupEditView *popupView = [[GHPopupEditView alloc] init];
     [popupView setTitle:NSLocalizedString(@"Please enter the album name", nil)];
     [popupView setPlaceholderString:NSLocalizedString(@"Album name", nil)];
     [popupView setVerifyHandler:^(NSString *text) {
-        
         NSString *albumName = [text trim];
         if (albumName.length == 0) {
-            
             return NSLocalizedString(@"Album name can not be empty", nil);
         }
         return @"";
@@ -298,12 +267,14 @@
         if (nil == album) return;
         [self.userAlbums addObject:album];
         [self.tableView reloadData];
-        //显示广告
-        [self startShowAdMob];
+        
+        //显示广告**********************************************
+        [self setInterstitial];
+        //*****************************************************
+        
         
     }];
     [popupView show];
-    
 }
 
 //初始化插页广告
@@ -320,17 +291,14 @@
     [interstitial loadRequest:[GADRequest request]];
     return interstitial;
 }
--(void)startShowAdMob{
-    
-    if ([self.interstitial isReady]) {
-        [self.interstitial presentFromRootViewController:self];
-    }
-}
 
 #pragma mark - GADInterstitialDelegate -
-//GADInterstitial 是仅限一次性使用的对象。若要请求另一个插页式广告，您需要分配一个新的 GADInterstitial 对象。
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
-    [self setInterstitial];
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad{
+    if ([self.interstitial isReady]) {
+        [self.interstitial presentFromRootViewController:self];
+    }else{
+        NSLog(@"not ready~~~~");
+    }
 }
 //分配失败重新分配
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {

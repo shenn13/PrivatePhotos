@@ -8,13 +8,10 @@
 
 #import "XPFTPViewController.h"
 #import "XMFTPServer.h"
-#import <CoreLocation/CLLocationManagerDelegate.h>
-#import <StoreKit/StoreKit.h>
-
 @import GoogleMobileAds;
 
 @interface XPFTPViewController ()<GADBannerViewDelegate,GADInterstitialDelegate>{
-     GADBannerView *_bannerView;
+    GADBannerView *_bannerView;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -44,9 +41,6 @@
     
     self.title = NSLocalizedString(@"FTP Service", nil);
     
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,17 +49,13 @@
 }
 
 - (void)dealloc {
-    
-    
     [self stopFTPServer];
 }
 
 #pragma mark - Actions
 
 - (IBAction)toggleButtonAction:(UIButton *)sender {
-    
     sender.selected = !sender.selected;
-    
     if (sender.selected) {
         unsigned int ftpPort = 23023;
         NSString *ip = [XMFTPHelper localIPAddress];
@@ -84,29 +74,24 @@
                                                withDir:photoRootDirectory()
                                           notifyObject:nil];
     } else {
-        
         self.textField.text = nil;
-        
         [self stopFTPServer];
-        
     }
     
+    [self setInterstitial];
     
-    //显示广告**********************************************
-    [self startShowAdMob];
-    //*****************************************************
 }
 
 #pragma mark - Private
 
 - (void)stopFTPServer {
-    
     if (_ftpServer) {
         [_ftpServer stopFtpServer];
         _ftpServer = nil;
     }
-    
 }
+
+
 //初始化插页广告
 - (void)setInterstitial {
     
@@ -121,20 +106,16 @@
     [interstitial loadRequest:[GADRequest request]];
     return interstitial;
 }
--(void)startShowAdMob{
+
+
+#pragma mark - GADInterstitialDelegate -
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad{
     
     if ([self.interstitial isReady]) {
         [self.interstitial presentFromRootViewController:self];
     }else{
-        
         NSLog(@"not isReady");
     }
-}
-
-#pragma mark - GADInterstitialDelegate -
-//GADInterstitial 是仅限一次性使用的对象。若要请求另一个插页式广告，您需要分配一个新的 GADInterstitial 对象。
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
-    [self setInterstitial];
 }
 //分配失败重新分配
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {

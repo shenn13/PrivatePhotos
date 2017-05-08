@@ -36,7 +36,12 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = self.album.albumCollection.localizedTitle;
+    
+    [self.navigationController.navigationBar setBarTintColor:kMainScreenColor];
+    self.view.backgroundColor = [UIColor colorWithRed:240.0/255 green:241.0/255 blue:236.0/255 alpha:1];
+    
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.collectionView registerClass:[XPPhotoCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     self.collectionView.emptyDataSetSource = self;

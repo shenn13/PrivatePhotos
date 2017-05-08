@@ -11,7 +11,6 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 
 @import GoogleMobileAds;
-
 @interface XPSettingViewController ()<GADBannerViewDelegate,GADInterstitialDelegate>
 //插页广告
 @property(nonatomic, strong) GADInterstitial *interstitial;
@@ -24,22 +23,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self setInterstitial];
-    
     self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     
-    
-    
-    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0/*延迟执行时间*/ * NSEC_PER_SEC));
-    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-        //显示广告**********************************************
-        [self startShowAdMob];
-        //*****************************************************
-    });
-    
-   
-    
+    [self setInterstitial];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self.tableView.tableFooterView sizeToFit];
+}
+
+- (void)dealloc {
+    [[UIApplication sharedApplication] setApplicationSupportsShakeToEdit:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,7 +55,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const identifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    
     return cell;
 }
 
@@ -69,7 +63,6 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     XPSettingCell *settingCell = (XPSettingCell *)cell;
     if (0 == indexPath.section) {
-        
         [settingCell.stateSwitch setHidden:NO];
         [settingCell.stateSwitch setOn:isEnableTouchID()];
         [settingCell.stateSwitch addTarget:self
@@ -77,12 +70,9 @@
                           forControlEvents:UIControlEventValueChanged];
         [settingCell.titleLabel setText:NSLocalizedString(@"Fingerprints are unlocked", nil)];
     } else if (1 == indexPath.section) {
-        
         [settingCell.titleLabel setText:NSLocalizedString(@"Change Password", nil)];
         [settingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        
     } else if (2 == indexPath.section) {
-        
         [settingCell.titleLabel setText:NSLocalizedString(@"FTP Service", nil)];
         [settingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
@@ -90,46 +80,38 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     if (1 == indexPath.section) {
-        
         [self performSegueWithIdentifier:@"ChangePasswordSegue" sender:nil];
     } else if (2 == indexPath.section) {
-        
         [self performSegueWithIdentifier:@"FTPSegue" sender:nil];
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (0 == section) {
-        
         return NSLocalizedString(@"After opening, you can use the Touch ID to verify the fingerprint quickly to complete the unlock application", nil);
     }
     if (2 == section) {
-        
         return NSLocalizedString(@"After opening, you can quickly copy the photos through the FTP server", nil);
     }
     return nil;
 }
 
+
 #pragma mark - Actions
 
 - (void)stateSwitchAction:(UISwitch *)sender {
-    
     XPSettingCell *cell = (XPSettingCell *)sender.superview.superview;
     if (isEnableTouchID()) { // 已开启,则关闭指纹解锁
-        
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Make sure you want to turn off Touch ID?", nil) message:NSLocalizedString(@"", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [cell.stateSwitch setOn:YES];
         }]];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Close", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            
             [cell.stateSwitch setOn:NO];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setBool:NO forKey:XPTouchEnableStateKey];
             [userDefaults synchronize];
-            
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     } else {
@@ -138,7 +120,6 @@
         NSError *error = nil;
         BOOL isAvailable = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
         if (!isAvailable) {
-            
             [cell.stateSwitch setOn:NO];
             [XPProgressHUD showFailureHUD:error.localizedDescription toView:self.view];
             return;
@@ -146,7 +127,6 @@
         [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:NSLocalizedString(@"You can use the Touch ID to verify the fingerprint quickly to complete the unlock application", nil) reply:^(BOOL success, NSError * _Nullable error) {
             @strongify(self);
             if (!success) {
-                
                 [XPProgressHUD showFailureHUD:error.localizedDescription toView:self.view];
                 return;
             }
@@ -154,12 +134,9 @@
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setBool:YES forKey:XPTouchEnableStateKey];
             [userDefaults synchronize];
-            
-            //显示广告**********************************************
-            [self startShowAdMob];
-            //*****************************************************
-            
         }];
+        
+        [self setInterstitial];
     }
 }
 //初始化插页广告
@@ -176,18 +153,11 @@
     [interstitial loadRequest:[GADRequest request]];
     return interstitial;
 }
--(void)startShowAdMob{
-    
+#pragma mark - GADInterstitialDelegate -
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad{
     if ([self.interstitial isReady]) {
-        
         [self.interstitial presentFromRootViewController:self];
     }
-}
-
-#pragma mark - GADInterstitialDelegate -
-//GADInterstitial 是仅限一次性使用的对象。若要请求另一个插页式广告，您需要分配一个新的 GADInterstitial 对象。
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
-    [self setInterstitial];
 }
 //分配失败重新分配
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {

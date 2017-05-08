@@ -19,7 +19,7 @@
 + (void)initialize {
     UINavigationBar *navigationBar = [UINavigationBar appearance];
     [navigationBar setTranslucent:NO];
-    [navigationBar setBarTintColor:kMainScreenColor];
+    [navigationBar setBarTintColor:rgbColor(60.0, 65.0, 70.0)];
     [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     UIImage *backImage = [[UIImage imageNamed:@"icon-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [navigationBar setBackIndicatorImage:backImage];
