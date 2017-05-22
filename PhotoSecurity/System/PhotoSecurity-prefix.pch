@@ -37,14 +37,14 @@
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
 //AdMob APPID 原生广告ID 插屏广告ID  所有APP固定 三个ID
-#define AdMob_APP_ID @"ca-app-pub-1195236589504706~6266875079"
-#define AdMob_NativeExpressAdUnitID @"ca-app-pub-1195236589504706/3034207071"
-#define AdMob_CID @"ca-app-pub-1195236589504706/9220341474"
-#define AdMob_BannerViewAdUnitID @"ca-app-pub-1195236589504706/7743608277"
+#define AdMob_APP_ID @"ca-app-pub-1195236589504706~3173807873"
+#define AdMob_CID @"ca-app-pub-1195236589504706/6127274271"
+#define AdMob_BannerViewAdUnitID @"ca-app-pub-1195236589504706/4650541079"
 
 //友盟统计
 #define UM_APP_KEY @"58eca1825312dd405600051b"
 
+#define MarkUrl @"https://api.52kandianying.cn/index.html?method=mark&appid=169&id=51"
 /*******************
  APP评分跳转链接
  ******************* */
